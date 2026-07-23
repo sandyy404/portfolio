@@ -87,7 +87,7 @@ export const PERSONAL_INFO = {
   location: 'Greater Noida / Delhi NCR, India',
   email: 'sp8251960@gmail.com', // placeholder
   github: 'https://github.com/sandyy404',
-  linkedin: 'https://linkedin.com/in/sandeep-pandey',
+  linkedin: 'https://www.linkedin.com/in/sandeep-kumar-pandey-726a08321/',
   leetcode: 'https://leetcode.com/u/sandyy404',
   gfg: 'https://www.geeksforgeeks.org/user/sandeep_pandey/',
   codechef: 'https://www.codechef.com/users/sandyy404',
