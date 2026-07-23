@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sandeep-pandey-portfolio.vercel.app/sitemap.xml

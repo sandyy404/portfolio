@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+/* Define custom theme tokens for Tailwind v4 */
+@theme {
+  --color-cyan-glow: #00F0FF;
+  --color-blue-glow: #0066FF;
+  --color-dark-bg: #030712;
+
+  --shadow-glow-sm: 0 0 10px rgba(0, 240, 255, 0.3);
+  --shadow-glow-md: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.2);
+  --shadow-glow-lg: 0 0 30px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 102, 255, 0.3);
+
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-pulse-glow: pulse-glow 2.5s ease-in-out infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+}
+
+@layer base {
+  :root {
+    --color-bg: 3 7 18;
+    --color-primary: 0 102 255;
+    --color-cyan: 0 240 255;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color-scheme: dark;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #030712;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+    border: 2px solid #030712;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0066FF;
+  }
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  background: rgba(11, 15, 25, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(10, 15, 29, 0.5) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(0, 102, 255, 0.3);
+  transform: translateY(-4px);
+}
+
+.glass-card-interactive {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card-interactive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+  transition: 0.5s;
+}
+
+.glass-card-interactive:hover::before {
+  left: 100%;
+}
+
+/* Gradient Text Effect */
+.text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 40%, #00F0FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #60A5FA 0%, #00F0FF 50%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
+}
+
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Glow shadow utilities */
+.shadow-glow-sm {
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+.shadow-glow-md {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 40px rgba(0, 102, 255, 0.2);
+}
+.shadow-glow-lg {
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 102, 255, 0.3);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+/* Custom Cursor Hide default when custom cursor active */
+@media (min-width: 1024px) {
+  body.custom-cursor {
+    cursor: none;
+  }
+  body.custom-cursor a,
+  body.custom-cursor button,
+  body.custom-cursor input,
+  body.custom-cursor select,
+  body.custom-cursor textarea {
+    cursor: none;
+  }
+}
