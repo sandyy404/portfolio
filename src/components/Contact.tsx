@@ -1,9 +1,14 @@
+import emailjs from "@emailjs/browser";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Send, MapPin, Copy, Check, Sparkles, MessageSquare } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
+
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 
 interface ContactProps {
   onShowToast: (message: string) => void;
@@ -26,32 +31,50 @@ export const Contact: React.FC<ContactProps> = ({ onShowToast }) => {
     onShowToast('Email address copied to clipboard!');
     setTimeout(() => setCopiedEmail(false), 3000);
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!formData.name || !formData.email || !formData.message) {
-      onShowToast('Please fill in all required fields.');
+      onShowToast("Please fill in all required fields.");
       return;
     }
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      onShowToast('Thank you! Your message has been sent successfully.');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        EMAILJS_PUBLIC_KEY
+      );
 
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#00F0FF', '#0066FF', '#3B82F6', '#ffffff']
-        });
-      } catch (err) {
-        // fallback
-      }
-    }, 1200);
+      onShowToast("Message sent successfully!");
+
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
+    } catch (error) {
+      console.error(error);
+      onShowToast("Failed to send message.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -59,7 +82,7 @@ export const Contact: React.FC<ContactProps> = ({ onShowToast }) => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -93,7 +116,7 @@ export const Contact: React.FC<ContactProps> = ({ onShowToast }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
+
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
